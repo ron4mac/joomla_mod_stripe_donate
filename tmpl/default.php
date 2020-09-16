@@ -24,7 +24,7 @@ $modid = $module->id;
 				</fieldset>
 			</form>
 		</div>
-		<div class="span6">
+		<div class="span6 stripe-donate">
 			<button class="btn setamnt" data-modid="<?php echo $modid; ?>" value="25">$25</button>
 			<button class="btn setamnt" data-modid="<?php echo $modid; ?>" value="50">$50</button>
 			<button class="btn setamnt" data-modid="<?php echo $modid; ?>" value="75">$75</button>
@@ -36,7 +36,7 @@ $modid = $module->id;
 					<input type="text" id="amount-input<?php echo $modid; ?>" class="text-right" />
 					<span class="add-on">.00</span>
 				</div>
-				<p><?php echo $params['submit-blurb']; ?></p>
+				<p class="muted"><?php echo $params['submit-blurb']; ?></p>
 				<button id="submit<?php echo $modid; ?>" class="btn btn-primary doit"
 					data-modid="<?php echo $modid; ?>" data-loading-text="<i class='icon-lock icon-white'></i>"
 					> DONATE

@@ -3,15 +3,28 @@
 	padding:0 1em;
 }
 
+.mod-striped .stripe-donate {
+	text-align:center;
+}
+
 .mod-striped .stripe-pay input {
 	width:60%;
 }
 
-.mod-striped p { font-size:small; line-height:1em; }
-.mod-striped .setamnt { width:5em; }
-.mod-striped .doit { width:100%; }
+.mod-striped p {
+	font-size:small;
+	line-height:1em;
+}
+
+.mod-striped .setamnt {
+	width:5em;
+}
+
+.mod-striped .doit {
+	width:80%;
+}
 
 .mod-striped ::placeholder {
-  color: #BBB;
+	color: #BBB;
 }
 
