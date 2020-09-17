@@ -5,6 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 $document->addScript('https://js.stripe.com/v3/');
 $document->addScript('modules/'.$moduleName.'/assets/'.$moduleName.'.js');
 $modid = $module->id;
+$ptoken = modStripedHelper::getToken($params);
 ?>
 <div class="mod-striped">
 	<div class="row-fluid">
@@ -41,24 +42,33 @@ $modid = $module->id;
 					data-modid="<?php echo $modid; ?>" data-loading-text="<i class='icon-lock icon-white'></i>"
 					> DONATE
 				</button>
+				<div class="text-error" id="errmsg<?php echo $modid; ?>"></div>
 			</div>
 		</div>
 	</div>
-	<div id="error-message"></div>
 	<script>
-		var stripePayUrl = "<?php echo JUri::current(); ?>";
-		var stripe = Stripe("<?php echo $params->get('ptoken', 'pk_test_'); ?>");
+		try {
+			var stripe = Stripe("<?php echo $ptoken; ?>");
+		} catch (err) {
+			console.log(err);
+			mod_striped_msg(err.message, <?php echo $modid; ?>)
+		}
 		document.querySelector("#submit<?php echo $modid; ?>").addEventListener("click", function (evt) {
 			if (parseInt(document.getElementById("amount-input<?php echo $modid; ?>").value)) {
 				jQuery(this).button("loading");
 				createCheckoutSession(this.dataset.modid).then(function (data) {
-				console.log(data);
+					console.log(data);
+					if (data.success == false) {
+						mod_striped_msg(data.message, <?php echo $modid; ?>);
+						return;
+					}
 					stripe.redirectToCheckout({
 						sessionId: data.sessionId,
 					}).then(handleResult);
 				});
 			} else {
-				alert("Unacceptable donation amount");
+				//alert("Unacceptable donation amount");
+				mod_striped_msg("<?php echo JText::_('MOD_STRIPED_BAD_AMOUNT'); ?>", <?php echo $modid; ?>)
 			}
 		});
 

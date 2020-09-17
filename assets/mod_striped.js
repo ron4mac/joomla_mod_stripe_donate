@@ -4,7 +4,7 @@ var updateAmount = function (evt) {
 	inputEl.value = this.value;
 };
 
-function formToJsonString(form) {
+function formToJsonString (form) {
 	var obj = {};
 	var elements = form.querySelectorAll("input");
 	for (var i = 0; i < elements.length; ++i) {
@@ -18,6 +18,11 @@ function formToJsonString(form) {
 	}
 
 	return JSON.stringify(obj);
+}
+
+function mod_striped_msg (msg, modid)
+{
+	jQuery("#errmsg"+modid).html(msg);
 }
 
 // Create a Checkout Session with the selected amount

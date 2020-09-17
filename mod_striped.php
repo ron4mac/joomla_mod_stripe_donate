@@ -2,7 +2,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__).'/helper.php';
+// Include the helper functions only once
+JLoader::register('modStripedHelper', __DIR__ . '/helper.php');
 
 $moduleName = basename(dirname(__FILE__));
 

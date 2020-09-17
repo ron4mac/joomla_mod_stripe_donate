@@ -2,7 +2,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modStripedHelper
+abstract class modStripedHelper
 {
 	public static function getAjax ()
 	{
@@ -13,11 +13,11 @@ class modStripedHelper
 
 		$amount = $rvars->amount;
 		$modid = $rvars->modid;
-		$module = JModuleHelper::getModuleById($modid);	// warning! module must be enabled on all manu items
+		$module = JModuleHelper::getModuleById($modid);	// warning! module must be enabled for all pages if using {loadposition}
 		file_put_contents('FCPPAY.LOG', print_r($module,true)."\n", FILE_APPEND);
 		$params = new JRegistry($module->params);
 		file_put_contents('FCPPAY.LOG', print_r($params,true)."\n", FILE_APPEND);
-		$secret = $params['stoken'];
+		$secret = self::getToken($params, true);
 
 		require_once 'stripe-php/init.php';
 		\Stripe\Stripe::setApiKey($secret);
@@ -42,7 +42,7 @@ class modStripedHelper
 			  'price_data' => [
 				'currency' => 'usd',
 				'product_data' => [
-				  'name' => 'Donation to Flower City Pickers',
+				  'name' => $params->get('donate-name', 'Donation'),
 				],
 				'unit_amount' => 100 * $amount,
 			  ],
@@ -59,11 +59,16 @@ class modStripedHelper
 		jexit();
 	}
 
-	public static function attachCCD ($modid, $sessionId)
+	public static function getToken ($params, $secret=false)
 	{
-		$module = JModuleHelper::getModuleById($modid);	// warning! module must be enabled on all manu items
-		$params = new JRegistry($module->params);
-		$secret = $params['stoken'];
+		$test = $params['testmode'];
+		$tokn = $secret ? ($test ? 'stoken' : 'sltoken') : ($test ? 'ptoken' : 'pltoken');
+		return $params[$tokn];
+	}
+
+	public static function attachCCD ($params, $sessionId)
+	{
+		$secret = self::getToken($params, true);
 
 		require_once 'stripe-php/init.php';
 		\Stripe\Stripe::setApiKey($secret);

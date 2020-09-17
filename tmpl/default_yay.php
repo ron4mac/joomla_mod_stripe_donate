@@ -2,7 +2,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-modStripedHelper::attachCCD($module->id, $input->get('session_id', '', 'string'));
+modStripedHelper::attachCCD($params, $input->get('session_id', '', 'string'));
 
 ?>
 <div class="mod-striped">

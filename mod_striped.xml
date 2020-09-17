@@ -18,6 +18,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field name="donate-name" type="text" default="[donation-name]" size="30" label="MOD_STRIPED_DONATE_NAME_LABEL" />
 				<field name="contact-blurb" type="textarea" default="[contact-text]" rows="4" label="MOD_STRIPED_CONTACT_BLURB_LABEL" />
 				<field name="submit-blurb" type="textarea" default="[submit-text]" rows="4" label="MOD_STRIPED_SUBMIT_BLURB_LABEL" />
 				<field name="thank-you" type="editor" default="" label="MOD_STRIPED_THANKYOU_LABEL" filter="safehtml" />
